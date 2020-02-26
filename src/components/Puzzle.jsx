@@ -13,6 +13,7 @@ export default function Puzzle({ word, nextWord }) {
 
   useEffect(checkSolved, [pickedLetters]);
   useEffect(newWord, [word]);
+  useEffect(solve, [points]);
   useEffect(() => {
     let timer;
     if (solved) {
@@ -33,6 +34,21 @@ export default function Puzzle({ word, nextWord }) {
     setSolved(false);
     setPickedLetters(initalLetters);
     setPoints(maxPuzzlePoints);
+  }
+
+  function solve() {
+    if (points === 0) {
+      const newLetters = [];
+      [...upperWord].forEach(letter => {
+        if (![...pickedLetters, ...defaultLetters].includes(letter)) {
+          if (!newLetters.includes(letter)) {
+            newLetters.push(letter);
+          }
+        }
+      });
+
+      setPickedLetters([...pickedLetters, ...newLetters]);
+    }
   }
 
   function handleNewLetter(newLetter) {
