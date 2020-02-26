@@ -3,7 +3,7 @@ import React from "react";
 
 const LetterContainer = styled.div`
   display: inline-block;
-  border: solid 1px ${props => (props.space ? "white" : "black")};
+  border: solid 1px black;
   background-color: white;
   font-size: 24px;
   width: 20px;
@@ -15,9 +15,5 @@ const LetterContainer = styled.div`
 `;
 
 export default function Letter({ letter }) {
-  return (
-    <LetterContainer space={letter === " "}>
-      {letter === "_" ? null : letter}
-    </LetterContainer>
-  );
+  return <LetterContainer>{letter === "_" ? null : letter}</LetterContainer>;
 }
