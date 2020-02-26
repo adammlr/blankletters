@@ -11,28 +11,29 @@ const Input = styled.input`
   text-transform: uppercase;
 `;
 
+const Container = styled.div`
+  display: inline-block;
+`;
+
 export default function SelectLetter({ submitLetter }) {
   const [newLetter, setNewLetter] = useState("");
 
-  function handleSubmit(event) {
-    event.preventDefault();
-    submitLetter(newLetter.toUpperCase());
+  function handleChange(event) {
+    const letter = event.target.value.toUpperCase();
+    submitLetter(letter);
     setNewLetter("");
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label htmlFor="nextLetter">Next Letter:</label>
+    <Container>
       <Input
         type="text"
-        onChange={e => {
-          setNewLetter(e.target.value);
-        }}
+        onChange={handleChange}
         value={newLetter}
         maxLength={1}
         autoFocus
         name="nextLetter"
       />
-    </form>
+    </Container>
   );
 }

@@ -12,12 +12,16 @@ const PickedLetter = styled.div`
   font-family: "Source Code Pro";
 `;
 
+const Container = styled.div`
+  display: inline-block;
+`;
+
 export default function PickedLetterDisplay({ pickedLetters }) {
   return (
-    <div>
+    <Container>
       {pickedLetters.map(letter => {
         return <PickedLetter key={letter}>{letter}</PickedLetter>;
       })}
-    </div>
+    </Container>
   );
 }

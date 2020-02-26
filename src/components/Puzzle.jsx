@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from "react";
-import Letter from "./Letter";
 import PickedLetterDisplay from "./PickedLetterDisplay";
 import SelectLetter from "./SelectLetter";
-
-const initalLetters = ["R", "S", "T", "L", "N", "E"];
-const defaultLetters = [" ", "-", "&"];
+import Word from "./Word";
+import { initalLetters, defaultLetters } from "../constants";
 
 export default function Puzzle({ word, nextWord }) {
   const upperWord = word.toUpperCase();
@@ -12,13 +10,17 @@ export default function Puzzle({ word, nextWord }) {
   const [solved, setSolved] = useState(false);
 
   useEffect(checkSolved, [pickedLetters]);
-  useEffect(() => {
+  useEffect(newWord, [word]);
+
+  function newWord() {
     setSolved(false);
     setPickedLetters(initalLetters);
-  }, [word]);
+  }
 
   function handleNewLetter(newLetter) {
-    setPickedLetters([...pickedLetters, newLetter]);
+    if (!pickedLetters.includes(newLetter)) {
+      setPickedLetters([...pickedLetters, newLetter]);
+    }
   }
 
   function checkSolved() {
@@ -31,32 +33,18 @@ export default function Puzzle({ word, nextWord }) {
   return (
     <div>
       <div>
-        {[...upperWord].map((letter, index) => {
-          return (
-            <Letter
-              key={index}
-              letter={getLetterToDisplay(letter, [
-                ...pickedLetters,
-                ...defaultLetters
-              ])}
-            />
-          );
+        {upperWord.split(" ").map(eachWord => {
+          return <Word pickedLetters={pickedLetters} word={eachWord} />;
         })}
       </div>
 
       <PickedLetterDisplay pickedLetters={pickedLetters} />
       {!solved && <SelectLetter submitLetter={handleNewLetter} />}
-      {<button onClick={nextWord}>New Word!</button>}
+      {
+        <div>
+          <button onClick={nextWord}>New Word!</button>
+        </div>
+      }
     </div>
   );
-}
-
-function getLetterToDisplay(letter, pickedLetters) {
-  if (letter === " ") {
-    return " ";
-  }
-  if (pickedLetters.includes(letter)) {
-    return letter;
-  }
-  return "_";
 }
